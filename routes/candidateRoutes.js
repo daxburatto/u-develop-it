@@ -111,3 +111,5 @@ app.put('/api/candidate/:id', (req, res) => {
       });
     });
 });
+
+module.exports = router
