@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
-const db = require('../db/database');
+const db = require('../../db/database');
 const { route } = require('./candidateRoutes');
 
-router.get('/api/parties', (req, res) => {
+router.get('/parties', (req, res) => {
     const sql = `SELECT * FROM parties`;
     const params = [];
     db.all(sql, params, (err, rows) => {
@@ -19,7 +19,7 @@ router.get('/api/parties', (req, res) => {
     });
 });
 
-router.get('/api/party/:id', (req, res) => {
+router.get('/party/:id', (req, res) => {
     const sql = `SELECT * FROM parties WHERE id = ?`;
     const params = [req.params.id];
     db.get(sql, params, (err, row) => {
@@ -35,7 +35,7 @@ router.get('/api/party/:id', (req, res) => {
     });
 });
 
-router.delete('/api/party/:id', (req, res) => {
+router.delete('/party/:id', (req, res) => {
     const sql = `DELETE FROM parties WHERE id = ?`;
     const params = [req.params.id];
     db.run(sql, params, function(err, result) {

@@ -1,15 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const db = require('../db/database')
-const inputCheck = require('../utils/inputCheck')
+const db = require('../../db/database')
+const inputCheck = require('../../utils/inputCheck')
 
 // Get all candidates
-router.get('/api/candidates', (req, res) => {
+router.get('/candidates', (req, res) => {
     const sql = `SELECT candidates.*, parties.name 
                  AS party_name 
                  FROM candidates 
                  LEFT JOIN parties 
-                 ON candidates.party_id = parties.id;`;
+                 ON candidates.party_id = parties.id`;
     const params = []
     db.all(sql, params, (err, rows) => {
         if (err) {
@@ -25,7 +25,7 @@ router.get('/api/candidates', (req, res) => {
 })
 
 // Get single candidate
-router.get('/api/candidate/:id', (req, res) => {
+router.get('/candidate/:id', (req, res) => {
     const sql = `SELECT candidates.*, parties.name 
                  AS party_name 
                  FROM candidates 
@@ -47,7 +47,7 @@ router.get('/api/candidate/:id', (req, res) => {
 })
 
 // Create a candidate
-router.post('/api/candidate/:id', ({ body }, res) => {
+router.post('/candidate/:id', ({ body }, res) => {
     const errors = inputCheck(body, 'first_name', 'last_name', 'industry_connected')
     if (errors) {
         res.status(400).json({ error: errors })
@@ -72,7 +72,7 @@ router.post('/api/candidate/:id', ({ body }, res) => {
 })
 
 // Delete a candidate
-router.delete('/api/candidate/:id', (req, res) => {
+router.delete('/candidate/:id', (req, res) => {
     const sql = `DELETE FROM candidates WHERE id = ?`
     const params = [req.params.id]
     db.run(sql, params, function (err, result) {  
@@ -86,7 +86,7 @@ router.delete('/api/candidate/:id', (req, res) => {
 })
 
 // Update a candidate's party
-router.put('/api/candidate/:id', (req, res) => {
+router.put('/candidate/:id', (req, res) => {
 // Candidate is allowed to not have party information
     const errors = inputCheck(req.body, 'party_id')
     if (errors) {
